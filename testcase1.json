@@ -1,0 +1,18 @@
+{
+    "cacheManager": [
+      {
+        "testCase1": [
+          { "isEmpty":  {} },
+          { "add":      { "key": 20 } },
+          { "add":      { "key": 30 } },
+          { "clear":    {} },
+          { "isEmpty":  {} },
+          { "add":      { "key": 40 } },
+          { "add":      { "key": 50 } },
+          { "remove":   { "key": 106 } },
+          { "isEmpty":  {} }
+        ]
+      }
+    ]
+  }
+  
