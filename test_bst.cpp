@@ -7,7 +7,7 @@ using json = nlohmann::json;
 
 int main() {
     // 1) Match the very first line of your reference output
-    std::cout << "Testing out global.\n" << std::endl;
+    std::cout << "Testing out global.\n\n";
 
     // 2) Load just TestCase1
     std::ifstream in("testCase1.json");

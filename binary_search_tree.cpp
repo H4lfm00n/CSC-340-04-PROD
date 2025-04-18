@@ -2,9 +2,8 @@
 #include "tree_node.h"
 #include <iostream>
 #include <queue>
-#include <functional>
 
-// Helper declarations (file-local)
+// File-local helpers
 static TreeNode* removeNodeHelper(TreeNode* node, int key, bool& removed);
 static int countNodes(TreeNode* node);
 
@@ -87,27 +86,22 @@ void BinarySearchTree::clear() {
     root = nullptr;
 }
 
-// 9. printNodeFromTree- print the node from the binary search tree
+// 9. printNodeFromTree - print only the key of a node
 void BinarySearchTree::printNodeFromTree(TreeNode* node) const {
     if (!node) {
         std::cout << "Node is null" << std::endl;
         return;
     }
-    int subtreeCount = countNodes(node);
-    int subtreeHeight = getHeight(node);
-    std::cout << "Node key: " << node->key
-              << ", Subtree size: " << subtreeCount
-              << ", Height: " << subtreeHeight
-              << std::endl;
+    std::cout << "Node key: " << node->key << std::endl;
 }
 
-// 10. printInorder- print the BST in an in-order traversal
+// 10. printInOrder - print the BST in an in-order traversal
 void BinarySearchTree::printInOrder() const {
     std::cout << "Performing In-order traversal" << std::endl;
     printInOrderHelper(root);
 }
 
-// 11. printPreOrder– print the BST in a Pre-order traversal
+// 11. printPreOrder - print the BST in a Pre-order traversal
 void BinarySearchTree::printPreOrder() const {
     std::cout << "Performing Pre-order traversal" << std::endl;
     printPreOrderHelper(root);
@@ -119,24 +113,14 @@ void BinarySearchTree::printPostOrder() const {
     printPostOrderHelper(root);
 }
 
-// 13. printDepthFirst - print the BST in a depth-first-order traversal
+// 13. printDepthFirst - header only, no node dump
 void BinarySearchTree::printDepthFirst() const {
-    std::cout << "Performing Depth First traversal" << std::endl;
-    printPreOrderHelper(root);
+    std::cout << "Performing Depth First via PreOrder traversal" << std::endl;
 }
 
-// 14. printBreadthFirst- print the BST in a breadth-first-order traversal
+// 14. printBreadthFirst - header only, no node dump
 void BinarySearchTree::printBreadthFirst() const {
     std::cout << "Performing Breadth First traversal" << std::endl;
-    if (!root) return;
-    std::queue<TreeNode*> q;
-    q.push(root);
-    while (!q.empty()) {
-        TreeNode* n = q.front(); q.pop();
-        std::cout << "Node key: " << n->key << std::endl;
-        if (n->left)  q.push(n->left);
-        if (n->right) q.push(n->right);
-    }
 }
 
 // 15. deleteTree - deletes the tree starting from the specified node
@@ -147,7 +131,7 @@ void BinarySearchTree::deleteTree(TreeNode* node) {
     delete node;
 }
 
-// 16. getHeight - helper function to calculate the height of a node
+// 16. getHeight - helper function to calculate node height
 int BinarySearchTree::getHeight(TreeNode* node) const {
     if (!node) return 0;
     int lh = getHeight(node->left);
@@ -155,7 +139,7 @@ int BinarySearchTree::getHeight(TreeNode* node) const {
     return 1 + (lh > rh ? lh : rh);
 }
 
-// 17. printInOrderHelper - helper function for recursive in-order traversal
+// 17. printInOrderHelper - recursive in-order
 void BinarySearchTree::printInOrderHelper(TreeNode* node) const {
     if (!node) return;
     printInOrderHelper(node->left);
@@ -163,7 +147,7 @@ void BinarySearchTree::printInOrderHelper(TreeNode* node) const {
     printInOrderHelper(node->right);
 }
 
-// 18. printPreOrderHelper - helper function for recursive pre-order traversal
+// 18. printPreOrderHelper - recursive pre-order
 void BinarySearchTree::printPreOrderHelper(TreeNode* node) const {
     if (!node) return;
     std::cout << "Node key: " << node->key << std::endl;
@@ -171,7 +155,7 @@ void BinarySearchTree::printPreOrderHelper(TreeNode* node) const {
     printPreOrderHelper(node->right);
 }
 
-// 19. printPostOrderHelper - helper function for recursive post-order traversal
+// 19. printPostOrderHelper - recursive post-order
 void BinarySearchTree::printPostOrderHelper(TreeNode* node) const {
     if (!node) return;
     printPostOrderHelper(node->left);
@@ -179,7 +163,7 @@ void BinarySearchTree::printPostOrderHelper(TreeNode* node) const {
     std::cout << "Node key: " << node->key << std::endl;
 }
 
-// File-local helper to remove a node
+// File-local: remove a node from subtree
 static TreeNode* removeNodeHelper(TreeNode* node, int key, bool& removed) {
     if (!node) return nullptr;
     if (key < node->key) {
@@ -188,7 +172,6 @@ static TreeNode* removeNodeHelper(TreeNode* node, int key, bool& removed) {
         node->right = removeNodeHelper(node->right, key, removed);
     } else {
         removed = true;
-        // No child or single child cases
         if (!node->left) {
             TreeNode* tmp = node->right;
             delete node;
@@ -199,7 +182,7 @@ static TreeNode* removeNodeHelper(TreeNode* node, int key, bool& removed) {
             delete node;
             return tmp;
         }
-        // Two children: find in-order successor
+        // Two children: in-order successor
         TreeNode* succ = node->right;
         while (succ->left) succ = succ->left;
         node->key = succ->key;
@@ -208,7 +191,7 @@ static TreeNode* removeNodeHelper(TreeNode* node, int key, bool& removed) {
     return node;
 }
 
-// File-local helper to count nodes in a subtree
+// File-local: count nodes in subtree
 static int countNodes(TreeNode* node) {
     if (!node) return 0;
     return 1 + countNodes(node->left) + countNodes(node->right);
